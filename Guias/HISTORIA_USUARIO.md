@@ -48,7 +48,12 @@
 ### ✅ Paso 5: Optimización
 - [x] Ofrecer 7 módulos de optimización configurables
 - [x] Limpiar iconos del escritorio
-- [x] Limpiar barra de tareas para ADMIN y MAB
+- [x] Limpiar y configurar barra de tareas para ADMIN y MAB
+  - [x] Eliminar todos los iconos existentes de la barra de tareas
+  - [x] Añadir iconos predefinidos para ADMIN (método directo COM)
+  - [x] Crear Scheduled Task para MAB (ejecución al login)
+  - [x] Manejar limitaciones de Windows 11 (pinning no funciona vía .lnk)
+  - [x] Logging detallado del proceso de pinning
 - [x] Aplicar optimizaciones de privacidad
 - [x] Aplicar optimizaciones de rendimiento
 - [x] Deshabilitar servicios de telemetría
@@ -122,6 +127,23 @@
 
 **Tiempo estimado**: 5-15 minutos
 
+### Escenario 5: Reconfiguración de Barra de Tareas
+1. Técnico identifica que los iconos de la barra de tareas no se aplicaron correctamente
+2. Ejecuta la aplicación como administrador
+3. Navega al Paso 5 (Optimización)
+4. Ejecuta solo la configuración de barra de tareas
+5. Para usuario MAB: Verifica que la Scheduled Task se creó correctamente
+6. Usuario MAB hace logout/login para ejecutar la tarea programada
+7. Técnico verifica en logs el resultado del pinning
+
+**Tiempo estimado**: 5-10 minutos + tiempo de login de MAB
+
+**Troubleshooting**:
+- Revisar logs en C:\MABAppTecnologia\Logs para ver DEBUG de apps encontradas
+- Verificar que Scheduled Task existe: `schtasks /query /tn "MAB_PinTaskbarApps"`
+- Verificar que el script PowerShell existe en C:\MAB-Resources\Pin-TaskbarApps-MAB.ps1
+- En Windows 11, el método COM puede reportar éxito pero no aplicar cambios
+
 ---
 
 ## 🎯 Valor de Negocio
@@ -153,6 +175,16 @@
 - Requiere reinicio para aplicar nombre de equipo
 - Algunos instaladores pueden no soportar modo silencioso
 - PIN de Windows Hello requiere configuración manual post-instalación
+
+### Consideraciones Técnicas de Windows 11
+- **Barra de Tareas**: Windows 11 no permite pinning directo mediante copia de archivos .lnk
+  - Solución: Uso de COM Shell.Application para usuario actual
+  - Solución: Scheduled Tasks para otros usuarios (ejecuta al login)
+- **Método COM**: Reporta éxito pero puede no aplicar cambios realmente en Windows 11
+  - Solución: Logging detallado para debugging
+  - Solución: Scheduled Task como método alternativo más confiable
+- **Permisos**: Operaciones en otros usuarios requieren elevación y contexto correcto
+  - Solución: Scripts PowerShell ejecutados como el usuario destino
 
 ---
 
@@ -197,11 +229,17 @@
 
 - [README.md](README.md) - Documentación principal
 - [GUIA_RAPIDA.md](GUIA_RAPIDA.md) - Guía de uso
+- [DIAGRAMA_FLUJO.md](DIAGRAMA_FLUJO.md) - Diagramas de flujo completos
 - [CHANGELOG.md](CHANGELOG.md) - Historial de cambios
+- [SOLUCION_PROBLEMAS.md](SOLUCION_PROBLEMAS.md) - Troubleshooting
 
 ---
 
-**Versión**: 1.0.0  
-**Última actualización**: Noviembre 2025  
+**Versión**: 1.2.0
+**Última actualización**: Noviembre 2025
 **Autor**: Equipo de Tecnología MAB
+**Cambios recientes**:
+- Añadido escenario de reconfiguración de barra de tareas
+- Documentadas limitaciones de Windows 11
+- Añadidas consideraciones técnicas para taskbar pinning
 

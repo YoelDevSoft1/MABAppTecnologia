@@ -251,3 +251,5 @@ Config/*_backup.csv
 # Mantener estructura pero excluir contenido pesado
 !.gitkeep
 
+iso/Win11_25H2_Spanish_Mexico_x64.iso
+iso/Win11_25H2_Spanish_x64.iso

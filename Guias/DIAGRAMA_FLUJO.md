@@ -116,8 +116,9 @@ flowchart TD
     Navigate5 -->|Ejecutar Todo| ExecuteAll
     
     ExecuteStep5 -->|Sí| CleanDesktop[Limpiar Iconos del Escritorio]
-    CleanDesktop --> CleanTaskbar[Limpiar Barra de Tareas<br/>ADMIN y MAB]
-    CleanTaskbar --> CheckOpt1{¿Privacidad<br/>habilitada?}
+    CleanDesktop --> CleanTaskbarAdmin[Limpiar y Configurar<br/>Barra de Tareas ADMIN]
+    CleanTaskbarAdmin --> CleanTaskbarMAB[Limpiar y Configurar<br/>Barra de Tareas MAB<br/>mediante Scheduled Task]
+    CleanTaskbarMAB --> CheckOpt1{¿Privacidad<br/>habilitada?}
     
     CheckOpt1 -->|Sí| OptPrivacy[Aplicar Optimizaciones<br/>de Privacidad]
     CheckOpt1 -->|No| CheckOpt2
@@ -151,8 +152,8 @@ flowchart TD
     CheckOpt8 -->|No| LogOptSuccess
     RunAdvancedOptimizer --> LogOptSuccess[Registrar Éxito de<br/>Optimizaciones]
     LogOptSuccess --> ShowOptSummary[Mostrar Resumen:<br/>X/Y optimizaciones exitosas]
-    ShowOptSummary --> CheckExecuteAll{¿Fue ejecución<br/>de "Ejecutar Todo"?}
-    
+    ShowOptSummary --> CheckExecuteAll{¿Fue ejecución<br/>de Ejecutar Todo?}
+
     CheckExecuteAll -->|No| End
     CheckExecuteAll -->|Sí| ShowFinalMessage
     
@@ -205,7 +206,7 @@ stateDiagram-v2
     Paso5 --> Paso5: Ejecutar Paso 5
     Paso5 --> [*]: Finalizar
     
-    [*] --> EjecutarTodo: Botón "Ejecutar Todo"
+    [*] --> EjecutarTodo: Botón Ejecutar Todo
     EjecutarTodo --> Paso1: Ejecutar Paso 1
     EjecutarTodo --> Paso2: Ejecutar Paso 2
     EjecutarTodo --> Paso3: Ejecutar Paso 3
@@ -306,6 +307,65 @@ flowchart TD
 
 ---
 
+## 🎯 Flujo de Configuración de Barra de Tareas (Windows 11)
+
+```mermaid
+flowchart TD
+    Start([Inicio Configuración Taskbar]) --> CheckUser{¿Qué usuario?}
+
+    CheckUser -->|ADMIN| CleanAdminTaskbar[Limpiar Barra de Tareas ADMIN:<br/>Eliminar shortcuts de TaskBar]
+    CheckUser -->|MAB| CleanMABTaskbar[Limpiar Barra de Tareas MAB:<br/>Eliminar shortcuts de TaskBar]
+
+    CleanAdminTaskbar --> CheckCurrentUser{¿Es el usuario<br/>actual?}
+    CleanMABTaskbar --> CheckCurrentUser
+
+    CheckCurrentUser -->|Sí ADMIN| PinDirectAdmin[Intentar Pinning directo<br/>mediante COM Shell.Application]
+    CheckCurrentUser -->|No, es MAB| CreateScheduledTask[Crear Scheduled Task<br/>para ejecutar en próximo<br/>login de MAB]
+
+    PinDirectAdmin --> DefineApps[Definir Apps a Pin:<br/>- Chrome<br/>- Edge<br/>- Explorer<br/>- Excel<br/>- Word<br/>- Outlook]
+
+    DefineApps --> LoopApps[Para cada App:]
+    LoopApps --> FindLnk[Buscar archivo .lnk<br/>en ubicaciones comunes]
+    FindLnk --> CheckLnkFound{¿.lnk<br/>encontrado?}
+
+    CheckLnkFound -->|No| LogNotFound[Log: App no encontrada]
+    CheckLnkFound -->|Sí| TryPin[Intentar Pin con<br/>COM Verb PinToTaskbar]
+
+    TryPin --> CheckPinResult{¿Pin exitoso?}
+    CheckPinResult -->|Sí| LogPinned[Log: PINNED]
+    CheckPinResult -->|No| LogPinFailed[Log: PIN_FAILED]
+
+    LogNotFound --> NextApp{¿Más apps?}
+    LogPinned --> NextApp
+    LogPinFailed --> NextApp
+
+    NextApp -->|Sí| LoopApps
+    NextApp -->|No| SummaryDirect[Resumen: PINNED:X]
+
+    CreateScheduledTask --> CreatePSScript[Crear Script PowerShell<br/>en C:\MAB-Resources:<br/>Pin-TaskbarApps-MAB.ps1]
+    CreatePSScript --> DefineTaskAction[Definir Task Action:<br/>PowerShell.exe ejecutar script]
+    DefineTaskAction --> DefineTrigger[Definir Trigger:<br/>Al Login del usuario MAB]
+    DefineTrigger --> CreateTaskCmd[Ejecutar schtasks.exe<br/>para crear tarea]
+
+    CreateTaskCmd --> CheckTaskCreated{¿Task creada<br/>exitosamente?}
+    CheckTaskCreated -->|No| LogTaskError[Log: Error creando<br/>scheduled task]
+    CheckTaskCreated -->|Sí| LogTaskCreated[Log: Task creada OK<br/>Se ejecutará en próximo<br/>login de MAB]
+
+    SummaryDirect --> End([Fin])
+    LogTaskError --> End
+    LogTaskCreated --> End
+
+    style Start fill:#4CAF50,stroke:#2E7D32,color:#fff
+    style End fill:#F44336,stroke:#C62828,color:#fff
+    style PinDirectAdmin fill:#2196F3,stroke:#1565C0,color:#fff
+    style CreateScheduledTask fill:#9C27B0,stroke:#6A1B9A,color:#fff
+    style LogPinned fill:#4CAF50,stroke:#2E7D32,color:#fff
+    style LogPinFailed fill:#FF9800,stroke:#E65100,color:#fff
+    style LogTaskError fill:#FF9800,stroke:#E65100,color:#fff
+```
+
+---
+
 ## 📝 Leyenda
 
 ### Colores en los Diagramas
@@ -330,6 +390,61 @@ flowchart TD
 3. **Ejecución de Pasos**: Permite ejecutar individual o todos juntos
 4. **Instalación de Software**: Intenta silencioso primero, luego interactivo
 5. **Optimizaciones**: Cada módulo es opcional e independiente
+6. **Configuración de Barra de Tareas**:
+   - Usuario actual (ADMIN): Pinning directo mediante COM Shell.Application
+   - Otro usuario (MAB): Creación de Scheduled Task para ejecución al login
+   - Windows 11: Método COM puede fallar, se usa logging detallado para debugging
+   - Fallback: Script PowerShell ejecutado como el usuario destino mediante Task Scheduler
+
+---
+
+## ⚠️ Notas Técnicas Importantes
+
+### Configuración de Barra de Tareas en Windows 11
+
+**Problema Conocido**:
+Windows 11 ha cambiado significativamente la forma en que maneja el pinning de aplicaciones a la barra de tareas. El método tradicional de copiar archivos `.lnk` a la carpeta `%APPDATA%\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar` **ya no funciona**.
+
+**Soluciones Implementadas**:
+
+1. **Para Usuario Actual (ADMIN)**:
+   - Uso de COM Automation via `Shell.Application`
+   - Invocación del verbo `PinToTaskbar` en archivos `.lnk`
+   - ⚠️ **Limitación**: El método COM reporta éxito pero puede no aplicar cambios en Windows 11
+   - 📊 **Logging**: Se registra `PINNED:X` donde X es el contador, pero no garantiza pinning real
+
+2. **Para Otros Usuarios (MAB)**:
+   - Creación de Scheduled Task que se ejecuta al login del usuario
+   - Script PowerShell almacenado en `C:\MAB-Resources\Pin-TaskbarApps-MAB.ps1`
+   - Trigger: `LOGON` del usuario MAB
+   - Ventaja: Se ejecuta en el contexto correcto del usuario
+
+3. **Debugging**:
+   - Logs detallados con nivel `DEBUG` muestran:
+     - Apps encontradas y sus rutas `.lnk`
+     - Resultado de cada intento de pinning
+     - Errores de PowerShell si existen
+   - Ubicación de logs: `C:\MABAppTecnologia\Logs\MAB_Log_YYYYMMDD_HHMMSS.txt`
+
+4. **Verificación Manual**:
+   ```powershell
+   # Verificar Scheduled Task creada
+   schtasks /query /tn "MAB_PinTaskbarApps"
+
+   # Verificar script PowerShell
+   Test-Path C:\MAB-Resources\Pin-TaskbarApps-MAB.ps1
+
+   # Ejecutar manualmente la tarea (para testing)
+   schtasks /run /tn "MAB_PinTaskbarApps"
+   ```
+
+**Apps Predefinidas para Pinning**:
+- Google Chrome
+- Microsoft Edge
+- File Explorer
+- Microsoft Excel
+- Microsoft Word
+- Microsoft Outlook
 
 ---
 
@@ -338,10 +453,12 @@ flowchart TD
 - [HISTORIA_USUARIO.md](HISTORIA_USUARIO.md) - Historia de usuario completa
 - [GUIA_RAPIDA.md](GUIA_RAPIDA.md) - Guía de uso paso a paso
 - [README.md](README.md) - Documentación principal
+- [SystemService.cs](../Services/SystemService.cs) - Implementación de `CleanTaskbar` y `PinAppsToTaskbar`
 
 ---
 
-**Versión**: 1.0.0  
-**Última actualización**: Noviembre 2025  
+**Versión**: 1.2.0
+**Última actualización**: Noviembre 2025
 **Formato**: Mermaid Diagram (compatible con GitHub, GitLab, y editores Markdown)
+**Cambios recientes**: Añadido flujo de configuración de barra de tareas para Windows 11
 
