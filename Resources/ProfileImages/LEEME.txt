@@ -1,0 +1,27 @@
+INSTRUCCIONES - Carpeta de Imágenes de Perfil
+==============================================
+
+Coloque las imágenes de perfil en esta carpeta con los siguientes nombres base:
+
+1. admin_profile    - Imagen de perfil para usuario ADMIN
+2. mab_profile      - Imagen de perfil para usuario MAB
+
+FORMATOS SOPORTADOS (flexible):
+  • .png (recomendado)
+  • .jpg / .jpeg
+  • .bmp
+  • .gif
+
+IMPORTANTE:
+- NO es necesario incluir la extensión en el nombre del archivo
+- La aplicación detectará automáticamente el formato que uses
+- Ejemplos válidos:
+  * admin_profile.png
+  * admin_profile.jpg
+  * mab_profile.jpeg
+  * mab_profile.bmp
+
+Resolución recomendada: 448x448 píxeles (cuadrado)
+
+Estas imágenes se copiarán automáticamente a C:\MAB-Resources\ProfileImages
+al ejecutar la aplicación.

@@ -1,0 +1,523 @@
+<Window x:Class="MABAppTecnologia.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:MABAppTecnologia.ViewModels"
+        xmlns:helpers="clr-namespace:MABAppTecnologia.Helpers"
+        mc:Ignorable="d"
+        Title="MAB APP TECNOLOGIA - Configuración de Equipos"
+        Height="700" Width="1000"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize"
+        Background="#F5F5F5">
+
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <!-- Converters -->
+        <helpers:StepColorConverter x:Key="StepColorConverter"/>
+
+        <!-- Estilos modernos -->
+        <Style TargetType="Button" x:Key="ModernButton">
+            <Setter Property="Background" Value="#0078D4"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="4"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#005A9E"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#CCCCCC"/>
+                    <Setter Property="Cursor" Value="Arrow"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Button" x:Key="SecondaryButton" BasedOn="{StaticResource ModernButton}">
+            <Setter Property="Background" Value="#6C757D"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#5A6268"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Button" x:Key="SuccessButton" BasedOn="{StaticResource ModernButton}">
+            <Setter Property="Background" Value="#28A745"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#218838"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="110"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#0078D4">
+            <StackPanel VerticalAlignment="Center" Margin="30,0">
+                <TextBlock Text="MAB APP TECNOLOGIA"
+                           FontSize="28"
+                           FontWeight="Bold"
+                           Foreground="White"/>
+                <TextBlock Text="Sistema de Configuración Automatizada de Equipos"
+                           FontSize="14"
+                           Foreground="#E0E0E0"
+                           Margin="0,5,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Indicador de pasos -->
+        <Border Grid.Row="1" Background="White" BorderBrush="#DDD" BorderThickness="0,1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" Margin="10,0">
+                    <Ellipse Width="30" Height="30" Fill="{Binding CurrentStep, Converter={StaticResource StepColorConverter}, ConverterParameter=1, FallbackValue=#0078D4}"/>
+                    <TextBlock Text="1. Nomenclatura" VerticalAlignment="Center" Margin="8,0,0,0" FontWeight="SemiBold"/>
+                </StackPanel>
+                <TextBlock Text="→" VerticalAlignment="Center" Margin="10,0" FontSize="16" Foreground="#999"/>
+                <StackPanel Orientation="Horizontal" Margin="10,0">
+                    <Ellipse Width="30" Height="30" Fill="{Binding CurrentStep, Converter={StaticResource StepColorConverter}, ConverterParameter=2, FallbackValue=#CCC}"/>
+                    <TextBlock Text="2. Usuarios" VerticalAlignment="Center" Margin="8,0,0,0" FontWeight="SemiBold"/>
+                </StackPanel>
+                <TextBlock Text="→" VerticalAlignment="Center" Margin="10,0" FontSize="16" Foreground="#999"/>
+                <StackPanel Orientation="Horizontal" Margin="10,0">
+                    <Ellipse Width="30" Height="30" Fill="{Binding CurrentStep, Converter={StaticResource StepColorConverter}, ConverterParameter=3, FallbackValue=#CCC}"/>
+                    <TextBlock Text="3. Personalización" VerticalAlignment="Center" Margin="8,0,0,0" FontWeight="SemiBold"/>
+                </StackPanel>
+                <TextBlock Text="→" VerticalAlignment="Center" Margin="10,0" FontSize="16" Foreground="#999"/>
+                <StackPanel Orientation="Horizontal" Margin="10,0">
+                    <Ellipse Width="30" Height="30" Fill="{Binding CurrentStep, Converter={StaticResource StepColorConverter}, ConverterParameter=4, FallbackValue=#CCC}"/>
+                    <TextBlock Text="4. Software" VerticalAlignment="Center" Margin="8,0,0,0" FontWeight="SemiBold"/>
+                </StackPanel>
+                <TextBlock Text="→" VerticalAlignment="Center" Margin="10,0" FontSize="16" Foreground="#999"/>
+                <StackPanel Orientation="Horizontal" Margin="10,0">
+                    <Ellipse Width="30" Height="30" Fill="{Binding CurrentStep, Converter={StaticResource StepColorConverter}, ConverterParameter=5, FallbackValue=#CCC}"/>
+                    <TextBlock Text="5. Optimización" VerticalAlignment="Center" Margin="8,0,0,0" FontWeight="SemiBold"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Contenido principal -->
+        <Border Grid.Row="2" Background="White" Margin="20" CornerRadius="8" Padding="30">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+            </Border.Effect>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ContentControl>
+                    <ContentControl.Style>
+                        <Style TargetType="ContentControl">
+                            <Style.Triggers>
+                                <!-- Paso 1: Nomenclatura -->
+                                <DataTrigger Binding="{Binding CurrentStep}" Value="1">
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <StackPanel>
+                                                <TextBlock Text="Configuración de Nomenclatura del Equipo" FontSize="20" FontWeight="Bold" Margin="0,0,0,20"/>
+
+                                                <TextBlock Text="Información del Equipo:" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="150"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="35"/>
+                                                        <RowDefinition Height="35"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Serial:" VerticalAlignment="Center"/>
+                                                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ComputerSerial, Mode=TwoWay}" IsReadOnly="True" Padding="8" Background="#F9F9F9"/>
+
+                                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Fabricante:" VerticalAlignment="Center"/>
+                                                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ComputerManufacturer, Mode=TwoWay}" IsReadOnly="True" Padding="8" Background="#F9F9F9"/>
+                                                </Grid>
+
+                                                <TextBlock Text="Seleccionar Consorcio:" FontSize="14" FontWeight="SemiBold" Margin="0,20,0,10"/>
+                                                <ComboBox ItemsSource="{Binding Consorcios}"
+                                                          SelectedItem="{Binding SelectedConsorcio}"
+                                                          DisplayMemberPath="Consorcio"
+                                                          Padding="10"
+                                                          FontSize="14"
+                                                          Height="40"/>
+
+                                                <TextBlock Text="Tipo de Equipo:" FontSize="14" FontWeight="SemiBold" Margin="0,20,0,10"/>
+                                                <ComboBox ItemsSource="{Binding TiposEquipo}"
+                                                          SelectedItem="{Binding SelectedTipoEquipo}"
+                                                          DisplayMemberPath="Nombre"
+                                                          Padding="10"
+                                                          FontSize="14"
+                                                          Height="40">
+                                                    <ComboBox.ItemContainerStyle>
+                                                        <Style TargetType="ComboBoxItem">
+                                                            <Setter Property="ToolTip" Value="{Binding Descripcion}"/>
+                                                        </Style>
+                                                    </ComboBox.ItemContainerStyle>
+                                                </ComboBox>
+
+                                                <TextBlock Text="Nombre Generado:" FontSize="14" FontWeight="SemiBold" Margin="0,20,0,10"/>
+                                                <TextBox Text="{Binding GeneratedComputerName, Mode=OneWay}"
+                                                         IsReadOnly="True"
+                                                         Padding="12"
+                                                         FontSize="18"
+                                                         FontWeight="Bold"
+                                                         Background="#E8F5E9"
+                                                         Height="50"
+                                                         VerticalContentAlignment="Center"/>
+                                            </StackPanel>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+
+                                <!-- Paso 2: Usuarios -->
+                                <DataTrigger Binding="{Binding CurrentStep}" Value="2">
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <StackPanel>
+                                                <TextBlock Text="Gestión de Usuarios" FontSize="20" FontWeight="Bold" Margin="0,0,0,20"/>
+
+                                                <Border Background="#FFF3CD" Padding="15" CornerRadius="4" Margin="0,0,0,20">
+                                                    <StackPanel>
+                                                        <TextBlock Text="Se realizarán las siguientes acciones:" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                                                        <TextBlock Text="• Renombrar usuario actual a 'ADMIN'" Margin="5,3"/>
+                                                        <TextBlock Text="• Configurar contraseña del usuario ADMIN según CSV" Margin="5,3"/>
+                                                        <TextBlock Text="• Crear usuario estándar 'MAB' sin contraseña" Margin="5,3"/>
+                                                    </StackPanel>
+                                                </Border>
+
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="200"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="40"/>
+                                                        <RowDefinition Height="40"/>
+                                                        <RowDefinition Height="40"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Consorcio Seleccionado:" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SelectedConsorcio.Consorcio}" VerticalAlignment="Center" FontSize="14"/>
+
+                                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Contraseña ADMIN:" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="********** (del CSV)" VerticalAlignment="Center" FontSize="14" Foreground="#666"/>
+
+                                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="PIN ADMIN:" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding SelectedConsorcio.PinAdmin}" VerticalAlignment="Center" FontSize="14"/>
+                                                </Grid>
+                                            </StackPanel>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+
+                                <!-- Paso 3: Personalización -->
+                                <DataTrigger Binding="{Binding CurrentStep}" Value="3">
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <StackPanel>
+                                                <TextBlock Text="Personalización del Sistema" FontSize="20" FontWeight="Bold" Margin="0,0,0,20"/>
+
+                                                <TextBlock Text="Se aplicarán personalizaciones a los usuarios:" FontSize="14" Margin="0,0,0,15"/>
+
+                                                <Border Background="#E3F2FD" Padding="20" CornerRadius="4" Margin="0,10">
+                                                    <StackPanel>
+                                                        <TextBlock Text="Usuario ADMIN" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+                                                        <TextBlock Text="• Fondo de pantalla: admin_wallpaper.jpg" Margin="5,3"/>
+                                                        <TextBlock Text="• Pantalla de bloqueo: admin_lockscreen.jpg" Margin="5,3"/>
+                                                        <TextBlock Text="• Imagen de perfil: admin_profile.png" Margin="5,3"/>
+                                                    </StackPanel>
+                                                </Border>
+
+                                                <Border Background="#F3E5F5" Padding="20" CornerRadius="4" Margin="0,10">
+                                                    <StackPanel>
+                                                        <TextBlock Text="Usuario MAB" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+                                                        <TextBlock Text="• Fondo de pantalla: mab_wallpaper.jpg" Margin="5,3"/>
+                                                        <TextBlock Text="• Pantalla de bloqueo: mab_lockscreen.jpg" Margin="5,3"/>
+                                                        <TextBlock Text="• Imagen de perfil: mab_profile.png" Margin="5,3"/>
+                                                    </StackPanel>
+                                                </Border>
+                                            </StackPanel>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+
+                                <!-- Paso 4: Software -->
+                                <DataTrigger Binding="{Binding CurrentStep}" Value="4">
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <StackPanel>
+                                                <TextBlock Text="Instalación de Software" FontSize="20" FontWeight="Bold" Margin="0,0,0,20"/>
+
+                                                <TextBlock Text="Seleccione las aplicaciones a instalar:" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10"/>
+
+                                                <Border BorderBrush="#DDD" BorderThickness="1" CornerRadius="4" MaxHeight="400">
+                                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                                        <ItemsControl ItemsSource="{Binding SoftwareList}">
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Border BorderBrush="#EEE" BorderThickness="0,0,0,1" Padding="10">
+                                                                        <Grid>
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="30"/>
+                                                                                <ColumnDefinition Width="*"/>
+                                                                                <ColumnDefinition Width="100"/>
+                                                                            </Grid.ColumnDefinitions>
+
+                                                                            <CheckBox Grid.Column="0" IsChecked="{Binding IsSelected}" VerticalAlignment="Center"/>
+                                                                            <StackPanel Grid.Column="1" Margin="10,0">
+                                                                                <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
+                                                                                    <TextBlock Text="{Binding Category}"
+                                                                                               FontSize="10"
+                                                                                               FontWeight="SemiBold"
+                                                                                               Foreground="White"
+                                                                                               Background="#0078D4"
+                                                                                               Padding="4,2"
+                                                                                               Margin="0,0,8,0"/>
+                                                                                </StackPanel>
+                                                                                <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="SemiBold"/>
+                                                                                <TextBlock Text="{Binding FileName}" FontSize="11" Foreground="#666"/>
+                                                                            </StackPanel>
+                                                                            <TextBlock Grid.Column="2" Text="{Binding Status}" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="#28A745"/>
+                                                                        </Grid>
+                                                                    </Border>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </ScrollViewer>
+                                                </Border>
+
+                                                <TextBlock Text="Nota: Se intentará instalación silenciosa. Si falla, se abrirá el instalador interactivo."
+                                                           FontSize="12"
+                                                           Foreground="#666"
+                                                           Margin="0,15,0,0"
+                                                           TextWrapping="Wrap"/>
+                                            </StackPanel>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+
+                                <!-- Paso 5: Optimización -->
+                                <DataTrigger Binding="{Binding CurrentStep}" Value="5">
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <StackPanel>
+                                                <TextBlock Text="Optimización del Sistema" FontSize="20" FontWeight="Bold" Margin="0,0,0,15"/>
+
+                                                <TextBlock Text="Seleccione las optimizaciones que desea aplicar:" 
+                                                           FontSize="14" 
+                                                           Margin="0,0,0,15"
+                                                           FontWeight="SemiBold"/>
+
+                                                <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="350">
+                                                    <StackPanel>
+                                                        <!-- Optimizaciones básicas (siempre activas) -->
+                                                        <Border Background="#E3F2FD" Padding="15" CornerRadius="4" Margin="0,5">
+                                                            <StackPanel>
+                                                                <TextBlock Text="🔧 Optimizaciones Básicas (siempre activas)" 
+                                                                           FontWeight="Bold" 
+                                                                           FontSize="13" 
+                                                                           Foreground="#0078D4"
+                                                                           Margin="0,0,0,10"/>
+                                                                <StackPanel Orientation="Horizontal" Margin="20,5">
+                                                                    <Ellipse Width="8" Height="8" Fill="#28A745" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                                                    <TextBlock Text="Limpieza de iconos del escritorio" FontSize="13"/>
+                                                                </StackPanel>
+                                                                <StackPanel Orientation="Horizontal" Margin="20,5">
+                                                                    <Ellipse Width="8" Height="8" Fill="#28A745" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                                                    <TextBlock Text="Limpieza de barra de tareas" FontSize="13"/>
+                                                                </StackPanel>
+                                                            </StackPanel>
+                                                        </Border>
+
+                                                        <!-- Optimizaciones opcionales -->
+                                                        <Border Background="#F8F9FA" Padding="15" CornerRadius="4" Margin="0,10">
+                                                            <StackPanel>
+                                                                <TextBlock Text="⚙️ Optimizaciones Recomendadas" 
+                                                                           FontWeight="Bold" 
+                                                                           FontSize="13" 
+                                                                           Margin="0,0,0,10"/>
+                                                                
+                                                                <CheckBox IsChecked="{Binding EnablePrivacyOptimizations}" 
+                                                                          Margin="0,8"
+                                                                          FontSize="13">
+                                                                    <TextBlock TextWrapping="Wrap">
+                                                                        <Run Text="🔒 Privacidad:" FontWeight="SemiBold"/>
+                                                                        <Run Text="Deshabilitar telemetría, anuncios, Windows Spotlight, Copilot"/>
+                                                                    </TextBlock>
+                                                                </CheckBox>
+
+                                                                <CheckBox IsChecked="{Binding EnablePerformanceOptimizations}" 
+                                                                          Margin="0,8"
+                                                                          FontSize="13">
+                                                                    <TextBlock TextWrapping="Wrap">
+                                                                        <Run Text="⚡ Rendimiento:" FontWeight="SemiBold"/>
+                                                                        <Run Text="Optimizar efectos visuales, apps en segundo plano, plan de energía"/>
+                                                                    </TextBlock>
+                                                                </CheckBox>
+
+                                                                <CheckBox IsChecked="{Binding DisableTelemetryServices}" 
+                                                                          Margin="0,8"
+                                                                          FontSize="13">
+                                                                    <TextBlock TextWrapping="Wrap">
+                                                                        <Run Text="🛡️ Servicios:" FontWeight="SemiBold"/>
+                                                                        <Run Text="Deshabilitar servicios de telemetría y diagnóstico"/>
+                                                                    </TextBlock>
+                                                                </CheckBox>
+
+                                                                <CheckBox IsChecked="{Binding EnableUXOptimizations}" 
+                                                                          Margin="0,8"
+                                                                          FontSize="13">
+                                                                    <TextBlock TextWrapping="Wrap">
+                                                                        <Run Text="🎨 Experiencia:" FontWeight="SemiBold"/>
+                                                                        <Run Text="Deshabilitar widgets, chat, elementos recomendados"/>
+                                                                    </TextBlock>
+                                                                </CheckBox>
+
+                                                                <CheckBox IsChecked="{Binding OptimizeStartup}" 
+                                                                          Margin="0,8"
+                                                                          FontSize="13">
+                                                                    <TextBlock TextWrapping="Wrap">
+                                                                        <Run Text="🚀 Inicio:" FontWeight="SemiBold"/>
+                                                                        <Run Text="Optimizar aplicaciones de inicio del sistema"/>
+                                                                    </TextBlock>
+                                                                </CheckBox>
+
+                                                                <CheckBox IsChecked="{Binding CleanTemporaryFiles}" 
+                                                                          Margin="0,8"
+                                                                          FontSize="13">
+                                                                    <TextBlock TextWrapping="Wrap">
+                                                                        <Run Text="🗑️ Limpieza:" FontWeight="SemiBold"/>
+                                                                        <Run Text="Eliminar archivos temporales y caché"/>
+                                                                    </TextBlock>
+                                                                </CheckBox>
+                                                            </StackPanel>
+                                                        </Border>
+
+                                                        <!-- Optimizaciones avanzadas -->
+                                                        <Border Background="#FFF3CD" Padding="15" CornerRadius="4" Margin="0,10">
+                                                            <StackPanel>
+                                                                <TextBlock Text="🔥 Optimizaciones Avanzadas" 
+                                                                           FontWeight="Bold" 
+                                                                           FontSize="13" 
+                                                                           Margin="0,0,0,10"/>
+                                                                
+                                                                <CheckBox IsChecked="{Binding RemoveBloatware}" 
+                                                                          Margin="0,8"
+                                                                          FontSize="13">
+                                                                    <TextBlock TextWrapping="Wrap">
+                                                                        <Run Text="🗑️ Bloatware:" FontWeight="SemiBold"/>
+                                                                        <Run Text="Eliminar aplicaciones preinstaladas innecesarias (Xbox, Bing, etc.)"/>
+                                                                    </TextBlock>
+                                                                </CheckBox>
+
+                                                                <CheckBox IsChecked="{Binding EnableAdvancedOptimizer}" 
+                                                                          Margin="0,8"
+                                                                          FontSize="13">
+                                                                    <TextBlock TextWrapping="Wrap">
+                                                                        <Run Text="⚡ OptimizerMAB:" FontWeight="SemiBold"/>
+                                                                        <Run Text="Ejecutar script avanzado de PowerShell (SSD, RAM, limpieza profunda, etc.)"/>
+                                                                    </TextBlock>
+                                                                </CheckBox>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </StackPanel>
+                                                </ScrollViewer>
+
+                                                <Border Background="#D4EDDA" Padding="15" CornerRadius="4" Margin="0,15,0,0">
+                                                    <StackPanel>
+                                                        <TextBlock Text="⚠ Importante" FontWeight="Bold" FontSize="13" Margin="0,0,0,5"/>
+                                                        <TextBlock Text="• Se recomienda crear un punto de restauración antes de aplicar optimizaciones avanzadas." 
+                                                                   TextWrapping="Wrap" 
+                                                                   FontSize="12"
+                                                                   Margin="0,2"/>
+                                                        <TextBlock Text="• Es necesario reiniciar el equipo después de completar las optimizaciones." 
+                                                                   TextWrapping="Wrap" 
+                                                                   FontSize="12"
+                                                                   Margin="0,2"/>
+                                                    </StackPanel>
+                                                </Border>
+                                            </StackPanel>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContentControl.Style>
+                </ContentControl>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Barra de progreso y botones -->
+        <Border Grid.Row="3" Background="White" BorderBrush="#DDD" BorderThickness="0,1,0,0" Padding="20">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <ProgressBar Grid.Row="0" Height="8" Value="{Binding ProgressValue}" Maximum="100" Margin="0,0,0,10"/>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="◄ Anterior"
+                            Command="{Binding PreviousStepCommand}"
+                            Style="{StaticResource SecondaryButton}"
+                            Width="120"
+                            Margin="5"/>
+
+                    <Button Content="Ejecutar Paso"
+                            Command="{Binding ExecuteCurrentStepCommand}"
+                            Style="{StaticResource ModernButton}"
+                            Width="150"
+                            Margin="5"/>
+
+                    <Button Content="Siguiente ►"
+                            Command="{Binding NextStepCommand}"
+                            Style="{StaticResource SecondaryButton}"
+                            Width="120"
+                            Margin="5"/>
+
+                    <Button Content="⚡ EJECUTAR TODO"
+                            Command="{Binding ExecuteAllCommand}"
+                            Style="{StaticResource SuccessButton}"
+                            Width="180"
+                            Margin="20,5,5,5"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Barra de estado -->
+        <Border Grid.Row="4" Background="#0078D4" Padding="15,0">
+            <TextBlock Text="{Binding StatusMessage}"
+                       Foreground="White"
+                       VerticalAlignment="Center"
+                       FontSize="13"/>
+        </Border>
+    </Grid>
+</Window>

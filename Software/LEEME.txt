@@ -1,0 +1,17 @@
+INSTRUCCIONES - Carpeta de Software
+====================================
+
+Coloque todos los instaladores de software en esta carpeta.
+
+Formatos soportados:
+  - Archivos .EXE (ejecutables)
+  - Archivos .MSI (Windows Installer)
+
+La aplicación intentará instalar automáticamente cada programa de forma silenciosa.
+Si la instalación silenciosa no es posible, se abrirá el instalador de forma interactiva.
+
+Durante la ejecución, podrá seleccionar cuáles programas desea instalar mediante
+checkboxes en la interfaz de la aplicación.
+
+Nota: Los nombres de archivo se mostrarán en la lista de la aplicación, por lo que
+se recomienda usar nombres descriptivos (ej: "Google_Chrome.exe" en lugar de "setup.exe").

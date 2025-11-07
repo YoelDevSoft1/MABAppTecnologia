@@ -1,0 +1,15 @@
+{
+  "MABResourcesPath": "C:\\MAB-Resources",
+  "WallpapersFolder": "Wallpapers",
+  "ProfileImagesFolder": "ProfileImages",
+  "SoftwareFolder": "Software",
+  "LogsFolder": "Logs",
+  "ConfigFolder": "Config",
+  "AdminWallpaper": "admin_wallpaper.jpg",
+  "AdminLockscreen": "admin_lockscreen.jpg",
+  "AdminProfile": "admin_profile.png",
+  "MABWallpaper": "mab_wallpaper.jpg",
+  "MABLockscreen": "mab_lockscreen.jpg",
+  "MABProfile": "mab_profile.png",
+  "ConsorciosCSVPath": "Config\\consorcios.csv"
+}

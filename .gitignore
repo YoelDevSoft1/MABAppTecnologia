@@ -1,0 +1,253 @@
+## .gitignore para MAB APP TECNOLOGIA
+## Proyecto .NET 8 WPF
+
+# ============================================
+# Carpetas de Build y Compilación
+# ============================================
+bin/
+obj/
+[Bb]in/
+[Oo]bj/
+*.dll
+*.exe
+*.pdb
+*.cache
+
+# ============================================
+# Carpetas de Publicación
+# ============================================
+Publish/
+Publish-Portable/
+Publish-SingleFile/
+publish/
+
+# ============================================
+# Logs y Archivos Temporales
+# ============================================
+Logs/
+*.log
+*.txt
+!VERSION.txt
+!README.txt
+!LEEME.txt
+!*.md
+
+# ============================================
+# Carpetas Pesadas - Software e Instaladores
+# ============================================
+# Excluir TODOS los ejecutables e instaladores de Software/ (varios GB)
+# Los instaladores deben estar disponibles localmente, no en el repositorio
+Software/**/*.exe
+Software/**/*.EXE
+Software/**/*.msi
+Software/**/*.MSI
+Software/**/*.dll
+Software/**/*.DLL
+Software/**/*.cat
+Software/**/*.CAT
+Software/**/*.inf
+Software/**/*.INF
+Software/**/*.sys
+Software/**/*.SYS
+Software/**/*.zip
+Software/**/*.ZIP
+Software/**/*.rar
+Software/**/*.RAR
+Software/**/*.7z
+Software/**/*.7Z
+Software/**/*.iso
+Software/**/*.ISO
+Software/**/*.img
+Software/**/*.IMG
+Software/**/*.cab
+Software/**/*.CAB
+Software/**/*.msu
+Software/**/*.MSU
+Software/**/*.appx
+Software/**/*.APPX
+Software/**/*.appxbundle
+Software/**/*.APPXBUNDLE
+# Excluir cualquier archivo sin extensión que pueda ser ejecutable
+Software/**/*[!.]
+# Mantener solo archivos de texto, configuración y estructura
+!Software/**/*.txt
+!Software/**/*.TXT
+!Software/**/*.xml
+!Software/**/*.XML
+!Software/**/*.json
+!Software/**/*.JSON
+!Software/**/*.cmd
+!Software/**/*.CMD
+!Software/**/*.ps1
+!Software/**/*.PS1
+!Software/**/*.JNLP
+!Software/**/*.jnlp
+!Software/**/*.ico
+!Software/**/*.ICO
+!Software/**/*.settings
+!Software/**/*.SETTINGS
+
+# ============================================
+# Visual Studio / Rider / VS Code
+# ============================================
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# ============================================
+# Archivos de Configuración Local
+# ============================================
+# Mantener settings.json pero excluir configuraciones locales si existen
+*.local.json
+appsettings.local.json
+
+# ============================================
+# Archivos Temporales del Sistema
+# ============================================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.swp
+*.swo
+*~
+
+# ============================================
+# Archivos de Backup y Temporales
+# ============================================
+*.bak
+*.tmp
+*.temp
+*_backup
+*_old
+*.orig
+
+# ============================================
+# Archivos de Windows
+# ============================================
+.DS_Store
+*.lnk
+*.url
+
+# ============================================
+# Archivos de Instalación y Drivers (en raíz)
+# ============================================
+# Excluir ejecutables y drivers en la raíz del proyecto
+*.EXE
+*.msi
+*.cat
+*.inf
+*.sys
+# Excluir DLLs excepto las necesarias para runtime
+*.dll
+!runtimes/**/*.dll
+
+# ============================================
+# Archivos de PowerShell y Scripts Temporales
+# ============================================
+# Mantener OptimizerMAB.ps1 pero excluir otros scripts temporales
+*.ps1
+!OptimizerMAB.ps1
+!Software/**/*.ps1
+
+# ============================================
+# Archivos de Python (si existen temporales)
+# ============================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# ============================================
+# Archivos de Configuración Sensibles
+# ============================================
+# Excluir archivos que puedan contener información sensible
+# Mantener estructura pero no datos sensibles
+secrets.json
+*.secret
+.env
+.env.local
+
+# ============================================
+# Archivos de Test y Coverage
+# ============================================
+TestResults/
+[Tt]est[Rr]esult*/
+*.trx
+*.coverage
+*.coveragexml
+coverage/
+
+# ============================================
+# Paquetes NuGet (se restauran automáticamente)
+# ============================================
+packages/
+*.nupkg
+*.snupkg
+
+# ============================================
+# Archivos de Certificados y Claves
+# ============================================
+*.pfx
+*.key
+*.p12
+*.cer
+
+# ============================================
+# Archivos de Documentación Generada
+# ============================================
+# Mantener .md pero excluir generados
+*.chm
+*.html
+!Guias/**/*.html
+
+# ============================================
+# Archivos de Compresión (en raíz)
+# ============================================
+# Excluir archivos comprimidos en la raíz
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+
+# ============================================
+# Archivos de Configuración de Equipos
+# ============================================
+# Excluir configuraciones específicas de equipos generadas
+Config/equipos_*.json
+Config/*_backup.csv
+
+# ============================================
+# Mantener Archivos Importantes
+# ============================================
+# Forzar inclusión de archivos importantes del proyecto
+!Config/consorcios.csv
+!Config/settings.json
+!Config/Nomenclatura Equipos.csv
+!MABAppTecnologia.csproj
+!*.csproj
+!*.xaml
+!*.cs
+!*.manifest
+!VERSION.txt
+!OptimizerMAB.ps1
+!Guias/**/*.md
+!README.md
+# Mantener recursos de imagen (necesarios para la app)
+!Resources/**/*.jpg
+!Resources/**/*.png
+!Resources/**/*.txt
+
+# ============================================
+# Estructura de Carpetas Vacías
+# ============================================
+# Mantener estructura pero excluir contenido pesado
+!.gitkeep
+

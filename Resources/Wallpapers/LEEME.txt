@@ -1,0 +1,28 @@
+INSTRUCCIONES - Carpeta de Fondos de Pantalla
+=============================================
+
+Coloque las imágenes de fondo y pantalla de bloqueo con los siguientes nombres base:
+
+1. admin_wallpaper    - Fondo de pantalla para usuario ADMIN
+2. admin_lockscreen   - Pantalla de bloqueo para usuario ADMIN
+3. mab_wallpaper      - Fondo de pantalla para usuario MAB
+4. mab_lockscreen     - Pantalla de bloqueo para usuario MAB
+
+FORMATOS SOPORTADOS (flexible):
+  • .jpg / .jpeg (recomendado para fotos)
+  • .png (recomendado para gráficos)
+  • .bmp
+
+IMPORTANTE:
+- NO es necesario incluir la extensión en el nombre del archivo
+- La aplicación detectará automáticamente el formato que uses
+- Ejemplos válidos:
+  * admin_wallpaper.jpg
+  * admin_wallpaper.png
+  * mab_lockscreen.jpeg
+  * mab_wallpaper.bmp
+
+Resolución recomendada: 1920x1080 o superior
+
+Estos archivos se copiarán automáticamente a C:\MAB-Resources\Wallpapers
+al ejecutar la aplicación.

@@ -1,0 +1,10 @@
+MAB APP TECNOLOGIA
+==================
+
+Versión: 1.0.0
+Fecha de Release: 6 de Noviembre de 2025
+Build: Release
+
+Desarrollado para MAB Ingeniería
+© 2025 MAB Ingeniería - Todos los derechos reservados
+
