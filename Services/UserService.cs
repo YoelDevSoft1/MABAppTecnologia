@@ -3,11 +3,11 @@ using MABAppTecnologia.Models;
 
 namespace MABAppTecnologia.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
-        private readonly LogService _logService;
+        private readonly ILogService _logService;
 
-        public UserService(LogService logService)
+        public UserService(ILogService logService)
         {
             _logService = logService;
         }

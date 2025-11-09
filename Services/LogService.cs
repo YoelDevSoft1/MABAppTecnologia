@@ -2,7 +2,7 @@ using System.IO;
 
 namespace MABAppTecnologia.Services
 {
-    public class LogService
+    public class LogService : ILogService
     {
         private readonly string _logFilePath;
 
@@ -35,6 +35,11 @@ namespace MABAppTecnologia.Services
         public void LogWarning(string message)
         {
             WriteLog("WARNING", message);
+        }
+
+        public void LogDebug(string message)
+        {
+            WriteLog("DEBUG", message);
         }
 
         private void WriteLog(string level, string message)

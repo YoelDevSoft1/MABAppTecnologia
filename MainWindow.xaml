@@ -10,11 +10,8 @@
         Height="700" Width="1000"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanResize"
-        Background="#F5F5F5">
-
-    <Window.DataContext>
-        <vm:MainViewModel/>
-    </Window.DataContext>
+        Background="#F5F5F5"
+        d:DataContext="{d:DesignInstance Type=vm:MainViewModel, IsDesignTimeCreatable=False}">
 
     <Window.Resources>
         <!-- Converters -->

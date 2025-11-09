@@ -14,10 +14,10 @@ using Microsoft.Win32;
 
 namespace MABAppTecnologia.Services
 {
-    public class PersonalizationService
+    public class PersonalizationService : IPersonalizationService
     {
-        private readonly LogService _logService;
-        private readonly ConfigService _configService;
+        private readonly ILogService _logService;
+        private readonly IConfigService _configService;
         private readonly string[] _supportedWallpaperFormats = { ".jpg", ".jpeg", ".png", ".bmp" };
         private readonly string[] _supportedProfileImageFormats = { ".png", ".jpg", ".jpeg", ".bmp", ".gif" };
         private readonly (string Key, int Size)[] _profileImageSizes =
@@ -37,7 +37,7 @@ namespace MABAppTecnologia.Services
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         private static extern bool SystemParametersInfo(uint uiAction, uint uiParam, string pvParam, uint fWinIni);
 
-        public PersonalizationService(LogService logService, ConfigService configService)
+        public PersonalizationService(ILogService logService, IConfigService configService)
         {
             _logService = logService;
             _configService = configService;

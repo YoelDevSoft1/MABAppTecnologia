@@ -11,12 +11,12 @@ namespace MABAppTecnologia.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private readonly LogService _logService;
-        private readonly ConfigService _configService;
-        private readonly SystemService _systemService;
-        private readonly UserService _userService;
-        private readonly PersonalizationService _personalizationService;
-        private readonly SoftwareService _softwareService;
+        private readonly ILogService _logService;
+        private readonly IConfigService _configService;
+        private readonly ISystemService _systemService;
+        private readonly IUserService _userService;
+        private readonly IPersonalizationService _personalizationService;
+        private readonly ISoftwareService _softwareService;
 
         private int _currentStep;
         private string _statusMessage;
@@ -27,7 +27,7 @@ namespace MABAppTecnologia.ViewModels
         private string _generatedComputerName;
         private ConsorcioConfig? _selectedConsorcio;
         private TipoEquipoItem? _selectedTipoEquipo;
-        
+
         // Optimization options
         private bool _enableAdvancedOptimizer = true;
         private bool _enablePrivacyOptimizations = true;
@@ -38,14 +38,20 @@ namespace MABAppTecnologia.ViewModels
         private bool _optimizeStartup = true;
         private bool _cleanTemporaryFiles = true;
 
-        public MainViewModel()
+        public MainViewModel(
+            ILogService logService,
+            IConfigService configService,
+            ISystemService systemService,
+            IUserService userService,
+            IPersonalizationService personalizationService,
+            ISoftwareService softwareService)
         {
-            _logService = new LogService();
-            _configService = new ConfigService(_logService);
-            _systemService = new SystemService(_logService);
-            _userService = new UserService(_logService);
-            _personalizationService = new PersonalizationService(_logService, _configService);
-            _softwareService = new SoftwareService(_logService);
+            _logService = logService;
+            _configService = configService;
+            _systemService = systemService;
+            _userService = userService;
+            _personalizationService = personalizationService;
+            _softwareService = softwareService;
 
             _statusMessage = "Bienvenido a MAB APP TECNOLOGIA";
             _currentStep = 1;

@@ -3,44 +3,59 @@ using System.IO;
 using CsvHelper;
 using CsvHelper.Configuration;
 using MABAppTecnologia.Models;
-using Newtonsoft.Json;
+using Microsoft.Extensions.Options;
 
 namespace MABAppTecnologia.Services
 {
-    public class ConfigService
+    public class ConfigService : IConfigService
     {
-        private readonly LogService _logService;
+        private readonly ILogService _logService;
+        private readonly ICacheService? _cacheService;
         private readonly string _appPath;
-        public AppConfig AppConfig { get; private set; }
+        private readonly IOptionsMonitor<AppConfig> _appConfigMonitor;
+        private const string CONSORCIOS_CACHE_KEY = "consorcios_list";
+        private static readonly TimeSpan CONSORCIOS_CACHE_DURATION = TimeSpan.FromMinutes(30);
 
-        public ConfigService(LogService logService)
+        /// <summary>
+        /// Configuración de la aplicación (inyectada y validada mediante IOptions)
+        /// </summary>
+        public AppConfig AppConfig => _appConfigMonitor.CurrentValue;
+
+        public ConfigService(ILogService logService, IOptionsMonitor<AppConfig> appConfigMonitor, ICacheService? cacheService = null)
         {
             _logService = logService;
+            _appConfigMonitor = appConfigMonitor;
+            _cacheService = cacheService;
             _appPath = AppDomain.CurrentDomain.BaseDirectory;
-            AppConfig = LoadAppConfig();
-        }
 
-        private AppConfig LoadAppConfig()
-        {
-            var configPath = Path.Combine(_appPath, "Config", "settings.json");
-
-            if (File.Exists(configPath))
+            // Log de configuración cargada y validada
+            if (_logService is IStructuredLogService structuredLog)
             {
-                try
-                {
-                    var json = File.ReadAllText(configPath);
-                    return JsonConvert.DeserializeObject<AppConfig>(json) ?? new AppConfig();
-                }
-                catch (Exception ex)
-                {
-                    _logService.LogWarning($"No se pudo cargar settings.json, usando configuración por defecto. Error: {ex.Message}");
-                }
+                structuredLog.LogInformation(
+                    "Configuración cargada y validada: ResourcesPath={ResourcesPath}, WallpapersFolder={WallpapersFolder}, ConsorciosCSV={ConsorciosCSV}",
+                    AppConfig.MABResourcesPath,
+                    AppConfig.WallpapersFolder,
+                    AppConfig.ConsorciosCSVPath);
             }
-
-            return new AppConfig();
+            else
+            {
+                _logService.LogInfo($"Configuración cargada desde IOptions: {AppConfig.MABResourcesPath}");
+            }
         }
 
         public List<ConsorcioConfig> LoadConsorcios()
+        {
+            // Intentar obtener del caché si está disponible
+            if (_cacheService != null)
+            {
+                return _cacheService.GetOrCreate(CONSORCIOS_CACHE_KEY, () => LoadConsorciosFromFile(), CONSORCIOS_CACHE_DURATION);
+            }
+
+            // Si no hay caché, cargar directamente del archivo
+            return LoadConsorciosFromFile();
+        }
+
+        private List<ConsorcioConfig> LoadConsorciosFromFile()
         {
             var csvPath = Path.Combine(_appPath, AppConfig.ConsorciosCSVPath);
 

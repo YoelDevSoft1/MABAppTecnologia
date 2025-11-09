@@ -4,12 +4,12 @@ using MABAppTecnologia.Models;
 
 namespace MABAppTecnologia.Services
 {
-    public class SoftwareService
+    public class SoftwareService : ISoftwareService
     {
-        private readonly LogService _logService;
+        private readonly ILogService _logService;
         private readonly string _softwarePath;
 
-        public SoftwareService(LogService logService)
+        public SoftwareService(ILogService logService)
         {
             _logService = logService;
             var appPath = AppDomain.CurrentDomain.BaseDirectory;

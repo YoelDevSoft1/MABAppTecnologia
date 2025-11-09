@@ -7,12 +7,12 @@ using MABAppTecnologia.Models;
 
 namespace MABAppTecnologia.Services
 {
-    public class SystemService
+    public class SystemService : ISystemService
     {
-        private readonly LogService _logService;
+        private readonly ILogService _logService;
         private readonly string _optimizerScriptPath;
 
-        public SystemService(LogService logService)
+        public SystemService(ILogService logService)
         {
             _logService = logService;
             _optimizerScriptPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "OptimizerMAB.ps1");

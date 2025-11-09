@@ -1,7 +1,8 @@
-﻿using System.Configuration;
+using System.Configuration;
 using System.Data;
 using System.Windows;
 using System.IO;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MABAppTecnologia;
 
@@ -10,10 +11,15 @@ namespace MABAppTecnologia;
 /// </summary>
 public partial class App : Application
 {
+    private IServiceProvider? _serviceProvider;
+
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
-        
+
+        // Configurar Dependency Injection
+        _serviceProvider = ServiceConfiguration.ConfigureServices();
+
         // Capturar excepciones no manejadas
         AppDomain.CurrentDomain.UnhandledException += (s, args) =>
         {
@@ -44,6 +50,10 @@ public partial class App : Application
             MessageBox.Show(errorMessage, "Error en Interfaz", MessageBoxButton.OK, MessageBoxImage.Error);
             args.Handled = true;
         };
+
+        // Crear y mostrar la ventana principal usando DI
+        var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
+        mainWindow.Show();
     }
 }
 
